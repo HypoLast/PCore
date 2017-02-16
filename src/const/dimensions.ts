@@ -1,2 +1,2 @@
-export const SCREEN_WIDTH = 1024;
-export const SCREEN_HEIGHT = 768;
+export const SCREEN_WIDTH = 1920;
+export const SCREEN_HEIGHT = 1080;

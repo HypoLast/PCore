@@ -1,6 +1,7 @@
 import * as nwgui from "nw.gui";
 import * as dimensions from "./const/dimensions";
 import * as Keycodes from "./const/keycodes";
+import { Game } from "./game/Game";
 import * as GameClock from "./providers/GameClock";
 import * as Keyboard from "./providers/Keyboard";
 import * as Mouse from "./providers/Mouse";
@@ -17,7 +18,7 @@ function main() {
     // win.enterFullscreen();
     let renderer: PIXI.SystemRenderer = new PIXI.WebGLRenderer(dimensions.SCREEN_WIDTH,
                                                                dimensions.SCREEN_HEIGHT,
-                                                               { backgroundColor : 0x1099bb });
+                                                               { backgroundColor : 0xFFFFFF });
     renderer.view.classList.add("scaling");
     renderer.view.id = "stage";
     (document.querySelector("#canvas-screen") || new Element()).appendChild(renderer.view);
@@ -27,9 +28,11 @@ function main() {
     // renderer.view.addEventListener("mousemove", e => console.log(e.movementX, e.movementY));
 
     Mouse.Init(window, renderer.view);
-    GameClock.Init(30);
+    GameClock.Init(60);
     Keyboard.Init(document.body);
     Stage.Init(win, renderer, stage);
+
+    stage.addChild(new Game());
 
     // global hotkeys
     // escape closes the window
