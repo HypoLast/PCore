@@ -1,0 +1,8 @@
+{
+  "resolution": "main",
+  "tree": {
+    "src": "https://raw.githubusercontent.com/DefinitelyTyped/DefinitelyTyped/cd4af2f88f3ea96c9059b17e33dc20df0f4bcce1/nw.js/nw.js.d.ts",
+    "raw": "registry:dt/nw.js#0.13.0+20160619023536",
+    "typings": "https://raw.githubusercontent.com/DefinitelyTyped/DefinitelyTyped/cd4af2f88f3ea96c9059b17e33dc20df0f4bcce1/nw.js/nw.js.d.ts"
+  }
+}
