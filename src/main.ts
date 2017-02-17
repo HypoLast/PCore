@@ -26,7 +26,7 @@ function main() {
     // win.enterFullscreen();
     let renderer: PIXI.SystemRenderer = new PIXI.WebGLRenderer(dimensions.SCREEN_WIDTH,
                                                                dimensions.SCREEN_HEIGHT,
-                                                               { backgroundColor : 0xFFFFFF });
+                                                               { backgroundColor : 0xDDDDDD });
     renderer.view.classList.add("scaling");
     renderer.view.id = "stage";
     (document.querySelector("#canvas-screen") || new Element()).appendChild(renderer.view);

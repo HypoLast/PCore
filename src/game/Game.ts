@@ -20,6 +20,7 @@ export class Game extends PIXI.Sprite {
     public player: Player;
     public map: Map;
     public playerSprite: PIXI.Sprite;
+    public mapGraphic: PIXI.Container;
 
     public controls: IControls = {
         dashLeft: false,
@@ -29,15 +30,15 @@ export class Game extends PIXI.Sprite {
         right: false,
     };
 
-    constructor() {
+    constructor(mapName: string = "test") {
         super();
 
-        this.map = new Map("test");
+        this.map = new Map(mapName);
         this.player = new Player();
         this.player.x = this.map.startX;
         this.player.y = this.map.startY;
 
-        let mapGraphic = new PIXI.Container();
+        this.mapGraphic = new PIXI.Container();
         for (let i = 0; i < this.map.width; i ++) {
             for (let j = 0; j < this.map.height; j ++) {
                 if (this.map.isCellSolid(i, j)) {
@@ -47,15 +48,27 @@ export class Game extends PIXI.Sprite {
                     cellGraphic.endFill();
                     cellGraphic.x = i * Map.CELL_SIZE;
                     cellGraphic.y = j * Map.CELL_SIZE;
-                    mapGraphic.addChild(cellGraphic);
+                    this.mapGraphic.addChild(cellGraphic);
+                }
+                if (this.map.getCellData(i, j) === 2) {
+                    let goldSprite = new PIXI.Sprite();
+                    let goldGraphic = new PIXI.Graphics();
+                    goldGraphic.beginFill(0xDDDD00);
+                    goldGraphic.drawRect(0, 0, Map.CELL_SIZE / 2, Map.CELL_SIZE / 2);
+                    goldGraphic.endFill();
+                    goldSprite.addChild(goldGraphic);
+                    goldSprite.x = i * Map.CELL_SIZE + Map.CELL_SIZE / 4;
+                    goldSprite.y = j * Map.CELL_SIZE + Map.CELL_SIZE / 4;
+                    goldSprite.name = i + "," + j;
+                    this.mapGraphic.addChild(goldSprite);
                 }
             }
         }
-        this.addChild(mapGraphic);
+        this.addChild(this.mapGraphic);
 
         this.playerSprite = new PIXI.Sprite();
         let playerGraphic = new PIXI.Graphics();
-        playerGraphic.beginFill(0xFF0000);
+        playerGraphic.beginFill(0x02A8FF);
         playerGraphic.drawRect(0, 0, this.player.width * Map.CELL_SIZE, this.player.height * Map.CELL_SIZE);
         playerGraphic.endFill();
         this.playerSprite.addChild(playerGraphic);
@@ -81,6 +94,7 @@ export class Game extends PIXI.Sprite {
         this.controls = this.fetchControls();
         this.player = this.incrementPlayerState(this.player, this.controls, this.map);
         this.player = this.movePlayer(this.player, this.map);
+        this.collectGold(); // TODO: temporary...
     }
 
     public incrementPlayerState(player: Player, controls: IControls, map: Map) {
@@ -208,6 +222,42 @@ export class Game extends PIXI.Sprite {
         return player;
     }
 
+    public collectGold() {
+        let bb = {
+            x: this.player.x,
+            y: this.player.y,
+            width: this.player.width,
+            height: this.player.height,
+        };
+
+        function collectsGoldAt(x: number, y: number) {
+            let goldBB = { x: x + 0.25, y: y + 0.25, width: 0.5, height: 0.5 };
+            return bb.x < goldBB.x + goldBB.width &&
+                   bb.x + bb.width > goldBB.x &&
+                   bb.y < goldBB.y + goldBB.height &&
+                   bb.y + bb.height > goldBB.y;
+        }
+
+        let X = Math.floor(bb.x);
+        let Y = Math.floor(bb.y);
+        if (this.map.getCellData(X, Y) === 2 && collectsGoldAt(X, Y)) {
+            this.mapGraphic.removeChild(this.mapGraphic.getChildByName(X + "," + Y));
+            this.map.cells[X][Y] = 0;
+        }
+        if (this.map.getCellData(X + 1, Y) === 2 && collectsGoldAt(X + 1, Y)) {
+            this.mapGraphic.removeChild(this.mapGraphic.getChildByName((X + 1) + "," + Y));
+            this.map.cells[X + 1][Y] = 0;
+        }
+        if (this.map.getCellData(X, Y + 1) === 2 && collectsGoldAt(X, Y + 1)) {
+            this.mapGraphic.removeChild(this.mapGraphic.getChildByName(X + "," + (Y + 1)));
+            this.map.cells[X][Y + 1] = 0;
+        }
+        if (this.map.getCellData(X + 1, Y + 1) === 2 && collectsGoldAt(X + 1, Y + 1)) {
+            this.mapGraphic.removeChild(this.mapGraphic.getChildByName((X + 1) + "," + (Y + 1)));
+            this.map.cells[X + 1][Y + 1] = 0;
+        }
+    }
+
     public graphics() {
         this.playerSprite.x = this.player.x * Map.CELL_SIZE;
         this.playerSprite.y = this.player.y * Map.CELL_SIZE;
@@ -293,7 +343,7 @@ class Map {
 
     public cells: number[][];
 
-    constructor(file: string = "test") {
+    constructor(file: string) {
         try {
             let mapFile = JSON.parse(fs.readFileSync("res/maps/" + file + ".map", "ascii"));
             this.cells = mapFile.cells;

@@ -4,7 +4,7 @@
          "color":"#030303",
          "draworder":"topdown",
          "height":30,
-         "name":"Object Layer 1",
+         "name":"terrain",
          "objects":[
                 {
                  "height":480,
@@ -386,13 +386,136 @@
          "width":30,
          "x":0,
          "y":0
+        }, 
+        {
+         "color":"#ffff00",
+         "draworder":"topdown",
+         "height":30,
+         "name":"gold",
+         "objects":[
+                {
+                 "height":64,
+                 "id":71,
+                 "name":"",
+                 "rotation":0,
+                 "type":"",
+                 "visible":true,
+                 "width":16,
+                 "x":16,
+                 "y":64
+                }, 
+                {
+                 "height":48,
+                 "id":72,
+                 "name":"",
+                 "rotation":0,
+                 "type":"",
+                 "visible":true,
+                 "width":48,
+                 "x":416,
+                 "y":416
+                }, 
+                {
+                 "height":16,
+                 "id":73,
+                 "name":"",
+                 "rotation":0,
+                 "type":"",
+                 "visible":true,
+                 "width":16,
+                 "x":384,
+                 "y":448
+                }, 
+                {
+                 "height":16,
+                 "id":74,
+                 "name":"",
+                 "rotation":0,
+                 "type":"",
+                 "visible":true,
+                 "width":16,
+                 "x":352,
+                 "y":448
+                }, 
+                {
+                 "height":16,
+                 "id":75,
+                 "name":"",
+                 "rotation":0,
+                 "type":"",
+                 "visible":true,
+                 "width":16,
+                 "x":320,
+                 "y":448
+                }, 
+                {
+                 "height":16,
+                 "id":76,
+                 "name":"",
+                 "rotation":0,
+                 "type":"",
+                 "visible":true,
+                 "width":16,
+                 "x":288,
+                 "y":448
+                }, 
+                {
+                 "height":32,
+                 "id":77,
+                 "name":"",
+                 "rotation":0,
+                 "type":"",
+                 "visible":true,
+                 "width":32,
+                 "x":368,
+                 "y":208
+                }, 
+                {
+                 "height":16,
+                 "id":78,
+                 "name":"",
+                 "rotation":0,
+                 "type":"",
+                 "visible":true,
+                 "width":16,
+                 "x":240,
+                 "y":112
+                }, 
+                {
+                 "height":16,
+                 "id":80,
+                 "name":"",
+                 "rotation":0,
+                 "type":"",
+                 "visible":true,
+                 "width":16,
+                 "x":16,
+                 "y":320
+                }, 
+                {
+                 "height":16,
+                 "id":81,
+                 "name":"",
+                 "rotation":0,
+                 "type":"",
+                 "visible":true,
+                 "width":16,
+                 "x":160,
+                 "y":304
+                }],
+         "opacity":1,
+         "type":"objectgroup",
+         "visible":true,
+         "width":30,
+         "x":0,
+         "y":0
         }],
- "nextobjectid":71,
+ "nextobjectid":84,
  "orientation":"orthogonal",
  "properties":
     {
-     "startX":25,
-     "startY":4
+     "startX":2,
+     "startY":28
     },
  "propertytypes":
     {
