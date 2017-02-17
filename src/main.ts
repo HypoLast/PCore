@@ -12,6 +12,14 @@ interface Window extends NWJS_Helpers.win {
     reload: (arg?: number) => void;
 }
 
+let info: Element;
+
+// update the debug info in the bottom right of the screen
+export function debug(message: string) {
+    if (!info) info = window.document.querySelector("#info") || new Element();
+    info.innerHTML = message.replace(/\n/g, "<br/>");
+}
+
 function main() {
     let win = <Window> nwgui.Window.get();
 
@@ -51,7 +59,11 @@ function main() {
         (key) => key.pressed && key.keyCode === Keycodes.F10);
 
     // frame rendering uses requestAnimationFrame for acceleration
-    let frameTimes: number[] = [];
+    let frameTime: number = 1000;
+    GameClock.provider().do((o) => {
+        frameTime = frameTime * 0.7 + o.dt * 0.3;
+        debug("FPS: " + Math.round(1000 / frameTime));
+    });
     let tick: () => void;
     requestAnimationFrame(tick = () => {
         renderer.render(stage);

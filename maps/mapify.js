@@ -11,4 +11,9 @@ for (let box of boxes) {
 		}
 	}
 }
-console.log(JSON.stringify(cells));
+let start = [obj.properties.startX, obj.properties.startY];
+console.log(JSON.stringify({
+	cells,
+	dim,
+	start
+}));
